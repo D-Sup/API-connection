@@ -1,29 +1,33 @@
-import  { useState } from 'react';
-import DisplayWeather from './Components/DisplayWeather/DisplayWeather.jsx';
+import React, { useState } from 'react';
 import './index.css'
+import DisplayWeather from './Components/DisplayWeather/DisplayWeather';
 
 function App() {
   const [inptLocation, setInptLocation] = useState('');
-  const [searchPage, setSearchPage] = useState(true);
-
-  function turnBack() {
-    setSearchPage(true);
-  }
+  const [searchPage, setSearchPage] = useState(false);
+  const [preInpt,setPreInput] = useState('');
 
   function submitForm(event) {
     event.preventDefault();
+    setSearchPage(true);
+    setInptLocation(preInpt);
+    setPreInput('');
+  }
+
+  function turnBack() {
     setSearchPage(false);
   }
+  
   return (
     <div className="container">
       <div className="wrapper">
         {searchPage ? (
-            <form onSubmit={submitForm}>
-              <input type="text" placeholder="Seoul" value={inptLocation} onChange={event => setInptLocation(event.target.value)} />
+          <DisplayWeather inptLocation={inptLocation} turnBack={turnBack}/>
+        ) : (
+          <form onSubmit={submitForm}>
+              <input type="text" placeholder="Seoul" value={preInpt} onChange={event => setPreInput(event.target.value)} />
               <button type="submit">🔍</button>
             </form>
-        ) : (
-          <DisplayWeather inptLocation={inptLocation} turnBack={turnBack}/>
         )}
       </div>
 </div>
