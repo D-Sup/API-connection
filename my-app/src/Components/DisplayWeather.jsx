@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './loading.css'
+import './loading.css';
 
 export default function DisplayWeather(props) {
   const cityValue = props.inptLocation;
@@ -31,21 +31,21 @@ export default function DisplayWeather(props) {
           cityValue ? 'q=' + cityValue : 'lat=' + latitude + '&lon=' + longitude
         }&appid=${key}&units=metric&lang=KR`,
       );
-  
+
       const responseSecond = fetch(
         `https://api.openweathermap.org/data/2.5/forecast?${
           cityValue ? 'q=' + cityValue : 'lat=' + latitude + '&lon=' + longitude
         }&appid=${key}&units=metric&lang=KR`,
       );
-  
-      const [data1, data2] = await Promise.all([responseFirst, responseSecond])
-  
+
+      const [data1, data2] = await Promise.all([responseFirst, responseSecond]);
+
       const result1 = await data1.json();
       const result2 = await data2.json();
-  
+
       console.log('a:', result1);
       console.log('b', result2);
-  
+
       const oneDay = 1000 * 60 * 60 * 24;
       const offset = 1000 * 60 * 60 * 9;
       const today = new Date().getTime() + offset;
@@ -53,18 +53,18 @@ export default function DisplayWeather(props) {
       const oneDaysLater = new Date(today + oneDay).toISOString().slice(0, 10) + DesiredTime;
       const twoDaysLater = new Date(today + oneDay * 2).toISOString().slice(0, 10) + DesiredTime;
       const threeDaysLater = new Date(today + oneDay * 3).toISOString().slice(0, 10) + DesiredTime;
-  
+
       const data = result2.list.filter(item => {
         return item.dt_txt === oneDaysLater || item.dt_txt === twoDaysLater || item.dt_txt === threeDaysLater;
       });
-  
+
       console.log('첫번재 API', result1);
       setApiValue(result1);
-  
+
       console.log('두번째 API', result2);
       console.log('추출한 데이터', data);
       setSecondApiValue(data);
-  
+
       setLoading(false);
     } catch (error) {
       console.error('Error: ', error);
@@ -91,7 +91,9 @@ export default function DisplayWeather(props) {
   return (
     <>
       {loading ? (
-        <div class="loading">Loading&#8230;</div>
+        <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+        </svg>
       ) : (
         <div onClick={props.turnBack}>
           <div className="today-weather">
