@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import './index.css'
-import DisplayWeather from './Components/DisplayWeather/DisplayWeather';
+import './index.css';
+import DisplayWeather from './Components/DisplayWeather';
 
 function App() {
   const [inptLocation, setInptLocation] = useState('');
   const [searchPage, setSearchPage] = useState(false);
-  const [preInpt,setPreInput] = useState('');
+  const [preInpt, setPreInpt] = useState('')
 
   function submitForm(event) {
     event.preventDefault();
     setSearchPage(true);
-    setInptLocation(preInpt);
-    setPreInput('');
+    setInptLocation(preInpt)
+    setPreInpt('');
   }
 
   function turnBack() {
     setSearchPage(false);
   }
-  
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -25,13 +25,17 @@ function App() {
           <DisplayWeather inptLocation={inptLocation} turnBack={turnBack}/>
         ) : (
           <form onSubmit={submitForm}>
-              <input type="text" placeholder="Seoul" value={preInpt} onChange={event => setPreInput(event.target.value)} />
-              <button type="submit">🔍</button>
-            </form>
+            <input
+              type="text"
+              placeholder="Seoul"
+              value={preInpt}
+              onChange={event => setPreInpt(event.target.value)}
+            />
+            <button type="submit">🔍</button>
+          </form>
         )}
       </div>
-</div>
-    
+    </div>
   );
 }
 
